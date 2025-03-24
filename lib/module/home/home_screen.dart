@@ -1,4 +1,5 @@
 import 'package:app_riverpod/core/state/base_state.dart';
+import 'package:app_riverpod/module/home/event/home_event.dart';
 import 'package:app_riverpod/module/home/notifier/home_notifier.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -13,17 +14,17 @@ class HomeScreen extends ConsumerStatefulWidget {
 }
 
 class _HomeScreenState extends ConsumerState<HomeScreen> {
-
   @override
   void initState() {
-    Future.microtask(() => ref.read(homeNotifierProvider.notifier).onInitial());
+    Future.microtask(
+        () => ref.read(homeNotifierProvider.notifier).onEvent(OnInitial()));
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     final state = ref.watch(homeNotifierProvider);
-    final event = ref.read(homeNotifierProvider.notifier);
+    final notifier = ref.read(homeNotifierProvider.notifier);
     return Scaffold(
       body: Center(
         child: Stack(
@@ -43,25 +44,31 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    event.onRefresh();
+                    notifier.onEvent(OnRefresh());
                   },
                   child: const Text('Refresh'),
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    event.onUpdateData("Parno");
+                    notifier.onEvent(OnUpdateData(username: "Parno"));
                   },
                   child: const Text('Update Data'),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    event.onTapNavigate(context, "NWG-1212121212");
+                    notifier.onEvent(OnTapNavigate(
+                      context: context,
+                      prospectId: "NWG-1212121212",
+                    ));
                   },
                   child: const Text('Push to Detail Transaction'),
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    event.onTapNavigateSubmission(context, "sugeng123");
+                    notifier.onEvent(OnTapNavigateSubmission(
+                      context: context,
+                      customerId: "NWG-sugeng123",
+                    ));
                   },
                   child: const Text('Push to Submission'),
                 ),
