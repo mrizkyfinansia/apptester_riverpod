@@ -16,16 +16,16 @@ final _shellNavigatorKey = GlobalKey<NavigatorState>();
 GoRouter router(RouterRef ref) {
   return GoRouter(
     debugLogDiagnostics: true,
-    initialLocation: ref.read(homeRouteProvider).path,
+    initialLocation: HomeRoute().path,
     navigatorKey: _rootNavigatorKey,
     routes: [
-      ref.read(homeRouteProvider).route(),
-      ref.read(submissionRouteProvider).route(
+      HomeRoute().route(),
+      SubmissionRoute().route(
         shellNavigatorKey: _shellNavigatorKey,
         shellRoutes: [
-          ref.read(submission1RouteProvider).route(_shellNavigatorKey),
-          ref.read(submission2RouteProvider).route(_shellNavigatorKey),
-          ref.read(submission3RouteProvider).route(_shellNavigatorKey),
+          Submission1Route().route(_shellNavigatorKey),
+          Submission2Route().route(_shellNavigatorKey),
+          Submission3Route().route(_shellNavigatorKey),
         ],
       ),
     ],
