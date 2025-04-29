@@ -1,8 +1,14 @@
 import 'package:app_riverpod/core/state/base_state.dart';
 import 'package:app_riverpod/module/submission/common/district/district_dropdown.dart';
 import 'package:app_riverpod/module/submission/common/province/province_dropdown.dart';
+import 'package:app_riverpod/module/submission/common/stepper/stepper_notifier.dart';
+import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_input.dart';
+import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_output.dart';
+import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
+import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
 import 'package:app_riverpod/module/submission/submssion_1/notifier/submission_1_notifier.dart';
 import 'package:app_riverpod/module/submission/submssion_1/route/suhmission_1_input.dart';
+import 'package:app_riverpod/module/submission/submssion_1/route/suhmission_1_output.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -10,9 +16,15 @@ class Submission1Screen extends ConsumerStatefulWidget {
   const Submission1Screen({
     super.key,
     required this.input,
+    required this.navigateToSubmission2,
+    required this.navigateToSubmission3,
+    required this.backToHome,
   });
 
   final Submission1Input input;
+  final Future<Submission2Output?> Function(Submission2Input) navigateToSubmission2;
+  final Future<Submission3Output?> Function(Submission3Input) navigateToSubmission3;
+  final void Function(Submission1Output) backToHome;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _Submission1ScreenState();
@@ -33,6 +45,7 @@ class _Submission1ScreenState extends ConsumerState<Submission1Screen> {
   @override
   Widget build(BuildContext context) {
     final submission1State = ref.watch(submission1NotifierProvider);
+
     print("BUILD SUBMISSION SCREEN");
     return Stack(
       alignment: Alignment.center,
@@ -65,15 +78,22 @@ class _Submission1ScreenState extends ConsumerState<Submission1Screen> {
         ElevatedButton(
           onPressed: () {
             // Navigate using notifier method
-            submission1Notifier.onNavigatedToSubmission2(context);
+            submission1Notifier.onTapButton(
+              currentStep: ref.watch(stepperNotifierProvider),
+              navigateToSubmission2: widget.navigateToSubmission2,
+              navigateToSubmission3: widget.navigateToSubmission3,
+            );
           },
           child: const Text('Next'),
         ),
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            // Navigate using notifier method
-            submission1Notifier.onNavigatedBack(context);
+            widget.backToHome(
+              const Submission1Output(
+                result: "Close",
+              ),
+            );
           },
           child: const Text('Close'),
         ),
