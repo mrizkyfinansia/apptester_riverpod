@@ -1,6 +1,9 @@
 import 'package:app_riverpod/core/state/base_state.dart';
 import 'package:app_riverpod/module/submission/submission_2/notifier/submission_2_notifier.dart';
 import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_input.dart';
+import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_output.dart';
+import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
+import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -8,9 +11,13 @@ class Submission2Screen extends ConsumerStatefulWidget {
   const Submission2Screen({
     super.key,
     required this.input,
+    required this.navigateToSubmission3,
+    required this.backToSubmission1,
   });
 
   final Submission2Input input;
+  final Future<Submission3Output?> Function(Submission3Input) navigateToSubmission3;
+  final void Function(Submission2Output) backToSubmission1;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _Submission2ScreenState();
@@ -80,14 +87,14 @@ class _Submission2ScreenState extends ConsumerState<Submission2Screen> {
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            submission2Notifier.onNavigatedToSubmission3(context);
+            submission2Notifier.onTapButton(navigateToSubmission3: widget.navigateToSubmission3);
           },
           child: const Text('Next'),
         ),
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            submission2Notifier.onNavigatedBack(context);
+            submission2Notifier.onTapBackButton(widget.backToSubmission1);
           },
           child: const Text('back'),
         ),

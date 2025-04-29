@@ -1,13 +1,11 @@
 import 'package:app_riverpod/core/state/base_state.dart';
 import 'package:app_riverpod/data/customer/customer.dart';
 import 'package:app_riverpod/module/submission/common/stepper/stepper_notifier.dart';
-import 'package:app_riverpod/module/submission/submission_2/route/submission_2_route.dart';
 import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_input.dart';
 import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_output.dart';
 import 'package:app_riverpod/module/submission/submission_2/state/submission_2_state.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'submission_2_notifier.g.dart';
@@ -36,12 +34,20 @@ class Submission2Notifier extends _$Submission2Notifier {
     state = state.success(data: state.data.copyWith(email: email));
   }
 
-  void onNavigatedBack(BuildContext context){
+  void onTapBackButton(
+    void Function(Submission2Output) backToSubmission1,
+  ){
     _stepperNotifier.previousStep();
-    ref.read(submission2RouteProvider).pop(context, output: const Submission2Output(result: "Submission navigate back"));
+    backToSubmission1(
+      const Submission2Output(
+        result: "Submission navigate back",
+      ),
+    );
   }
 
-  Future<Submission3Output?> onNavigatedToSubmission3(BuildContext context) async {
+  Future<Submission3Output?> onTapButton({
+    required Future<Submission3Output?> Function(Submission3Input) navigateToSubmission3,
+  }) async {
     state = state.loading();
     await Future.delayed(const Duration(seconds: 1));
     state = state.copyWith(stateStatus: StateStatus.success);
@@ -55,6 +61,6 @@ class Submission2Notifier extends _$Submission2Notifier {
       )
     );
     _stepperNotifier.nextStep();
-    return await ref.read(submission2RouteProvider).navigateToSubmission3(context, input);
+    return await navigateToSubmission3(input);
   }
 }
