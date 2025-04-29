@@ -1,12 +1,17 @@
 import 'package:app_riverpod/core/state/base_state.dart';
 import 'package:app_riverpod/module/home/notifier/home_notifier.dart';
+import 'package:app_riverpod/module/submission/submssion_1/route/suhmission_1_input.dart';
+import 'package:app_riverpod/module/submission/submssion_1/route/suhmission_1_output.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({
     super.key,
+    required this.navigateToSubmission1,
   });
+
+  final Future<Submission1Output?> Function(Submission1Input) navigateToSubmission1;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _HomeScreenState();
@@ -55,7 +60,7 @@ class _HomeScreenState extends ConsumerState<HomeScreen> {
                 ),
                 ElevatedButton(
                   onPressed: () async {
-                    event.onTapNavigateSubmission(context, "sugeng123");
+                    widget.navigateToSubmission1(const Submission1Input(customerId: "sugeng123"));
                   },
                   child: const Text('Push to Submission'),
                 ),
