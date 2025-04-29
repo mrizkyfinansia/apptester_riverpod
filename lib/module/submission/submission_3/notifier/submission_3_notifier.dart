@@ -1,9 +1,7 @@
 import 'package:app_riverpod/module/submission/common/stepper/stepper_notifier.dart';
-import 'package:app_riverpod/module/submission/submission_3/route/submission_3_route.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
 import 'package:app_riverpod/module/submission/submission_3/state/submission_3_state.dart';
-import 'package:flutter/material.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
 part 'submission_3_notifier.g.dart';
@@ -22,15 +20,27 @@ class Submission3Notifier extends _$Submission3Notifier {
     state = state.success(data: input);
   }
 
-  void onNavigatedBack(BuildContext context){
+  void onNavigatedBack({
+    required void Function(Submission3Output) backToSubmission2,
+  }){
     stepperNotifier.previousStep();
-    ref.read(submission3RouteProvider).pop(context, output: const Submission3Output(result: "Submission navigate back"));
+    backToSubmission2(
+      const Submission3Output(
+        result: "Submission navigate back",
+      ),
+    );
   }
 
-  Future<void> onSubmited(BuildContext context) async {
+  Future<void> onSubmited({
+    required void Function(Submission3Output) offToHome,
+  }) async {
     state.loading();
     await Future.delayed(const Duration(seconds: 1)).then((_) {
-      ref.read(submission3RouteProvider).offToHome(context);
+      offToHome(
+        const Submission3Output(
+          result: "Submission submitted",
+        ),
+      );
     });
   }
 }
