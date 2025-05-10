@@ -30,6 +30,7 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
+pubspec.lock
 
 # Symbolication related
 app.*.symbols
@@ -45,3 +46,7 @@ app.*.map.json
 # FVM Version Cache
 .fvm/
 .vscode/settings.json
+
+# Generated Files
+*.mocks.dart
+*.g.dart
