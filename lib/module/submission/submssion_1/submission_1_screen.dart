@@ -3,12 +3,9 @@ import 'package:app_riverpod/module/submission/common/district/district_dropdown
 import 'package:app_riverpod/module/submission/common/province/province_dropdown.dart';
 import 'package:app_riverpod/module/submission/common/stepper/stepper_notifier.dart';
 import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_input.dart';
-import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_output.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
-import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
 import 'package:app_riverpod/module/submission/submssion_1/notifier/submission_1_notifier.dart';
 import 'package:app_riverpod/module/submission/submssion_1/route/suhmission_1_input.dart';
-import 'package:app_riverpod/module/submission/submssion_1/route/suhmission_1_output.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -22,9 +19,9 @@ class Submission1Screen extends ConsumerStatefulWidget {
   });
 
   final Submission1Input input;
-  final Future<Submission2Output?> Function(Submission2Input) navigateToSubmission2;
-  final Future<Submission3Output?> Function(Submission3Input) navigateToSubmission3;
-  final void Function(Submission1Output) backToHome;
+  final void Function(Submission2Input) navigateToSubmission2;
+  final void Function(Submission3Input) navigateToSubmission3;
+  final void Function() backToHome;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _Submission1ScreenState();
@@ -89,11 +86,7 @@ class _Submission1ScreenState extends ConsumerState<Submission1Screen> {
         const SizedBox(height: 10),
         ElevatedButton(
           onPressed: () {
-            widget.backToHome(
-              const Submission1Output(
-                result: "Close",
-              ),
-            );
+            widget.backToHome();
           },
           child: const Text('Close'),
         ),

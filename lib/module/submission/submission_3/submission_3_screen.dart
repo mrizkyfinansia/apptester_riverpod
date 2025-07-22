@@ -1,6 +1,5 @@
 import 'package:app_riverpod/module/submission/submission_3/notifier/submission_3_notifier.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
-import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 
@@ -13,8 +12,8 @@ class Submission3Screen extends ConsumerStatefulWidget {
   });
 
   final Submission3Input input;
-  final void Function(Submission3Output) backToSubmission2;
-  final void Function(Submission3Output) offToHome;
+  final void Function() backToSubmission2;
+  final void Function() offToHome;
 
   @override
   ConsumerState<ConsumerStatefulWidget> createState() => _Submission3ScreenState();
