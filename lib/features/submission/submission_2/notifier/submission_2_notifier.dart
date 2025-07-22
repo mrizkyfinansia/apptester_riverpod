@@ -1,5 +1,6 @@
 import 'package:app_riverpod/core/state/base_state.dart';
 import 'package:app_riverpod/data/customer/customer.dart';
+import 'package:app_riverpod/features/pin/route/pin_output.dart';
 import 'package:app_riverpod/features/submission/common/stepper/stepper_notifier.dart';
 import 'package:app_riverpod/features/submission/submission_2/route/suhmission_2_input.dart';
 import 'package:app_riverpod/features/submission/submission_2/state/submission_2_state.dart';
@@ -39,9 +40,13 @@ class Submission2Notifier extends _$Submission2Notifier {
     backToSubmission1();
   }
 
-  Future<void> onTapButton({
+  Future<bool> onTapButton({
+    required Future<PinOutput> Function() navigateToPin,
     required void Function(Submission3Input) navigateToSubmission3,
   }) async {
+    final pinOutput = await navigateToPin();
+    if(!pinOutput.isSuccess) return false;
+
     state = state.loading();
     await Future.delayed(const Duration(seconds: 1));
     state = state.copyWith(stateStatus: StateStatus.success);
@@ -56,5 +61,6 @@ class Submission2Notifier extends _$Submission2Notifier {
     );
     _stepperNotifier.nextStep();
     navigateToSubmission3(input);
+    return true;
   }
 }

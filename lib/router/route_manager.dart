@@ -1,4 +1,5 @@
 import 'package:app_riverpod/features/home/route/home_route.dart';
+import 'package:app_riverpod/features/pin/route/pin_route.dart';
 import 'package:app_riverpod/features/submission/submission_2/route/submission_2_route.dart';
 import 'package:app_riverpod/features/submission/submission_3/route/submission_3_route.dart';
 import 'package:app_riverpod/features/submission/submission_route.dart';
@@ -28,6 +29,7 @@ GoRouter router(RouterRef ref) {
           Submission3Route().route(_shellNavigatorKey),
         ],
       ),
+      PinRoute().route(),
     ],
   );
 }

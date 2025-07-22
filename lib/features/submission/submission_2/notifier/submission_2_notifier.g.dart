@@ -7,7 +7,7 @@ part of 'submission_2_notifier.dart';
 // **************************************************************************
 
 String _$submission2NotifierHash() =>
-    r'62b7509d186d37fc55f4f28f64e2644ac76bec6d';
+    r'59538b7fdf4fd0ab96dfb042fb5e34fe90d0caf0';
 
 /// See also [Submission2Notifier].
 @ProviderFor(Submission2Notifier)
