@@ -17,8 +17,8 @@ class HomeRoute extends BaseRoute<Null, HomeOutput> {
       path: path,
       builder: (context, state) {
         return HomeScreen(
-          navigateToSubmission1: (input) async {
-            return await Submission1Route().push(context, input: input);
+          navigateToSubmission1: (input) {
+            Submission1Route().push(context, input: input);
           },
         );
       },

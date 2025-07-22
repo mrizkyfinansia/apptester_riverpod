@@ -4,9 +4,7 @@ import 'package:app_riverpod/module/submission/common/district/notifier/district
 import 'package:app_riverpod/module/submission/common/province/notifier/province_notifier.dart';
 import 'package:app_riverpod/module/submission/common/stepper/stepper_notifier.dart';
 import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_input.dart';
-import 'package:app_riverpod/module/submission/submission_2/route/suhmission_2_output.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
-import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
 import 'package:app_riverpod/module/submission/submssion_1/state/submission_1_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -31,14 +29,14 @@ class Submission1Notifier extends _$Submission1Notifier {
 
   Future<void> onTapButton({
     required int currentStep,
-    required Future<Submission2Output?> Function(Submission2Input) navigateToSubmission2,
-    required Future<Submission3Output?> Function(Submission3Input) navigateToSubmission3,
+    required void Function(Submission2Input) navigateToSubmission2,
+    required void Function(Submission3Input) navigateToSubmission3,
   }) async {
     // Only declare notifiers as local variable when it is used in only one method
     final provinceState = ref.read(provinceNotifierProvider);
     final districtState = ref.read(districtNotifierProvider);
 
-    if (provinceState.data.selectedProvince == null || districtState.data.selectedDistrict == null) return null;
+    if (provinceState.data.selectedProvince == null || districtState.data.selectedDistrict == null) return;
 
     state = state.loading();
     await Future.delayed(const Duration(seconds: 1));
@@ -50,13 +48,13 @@ class Submission1Notifier extends _$Submission1Notifier {
         province: provinceState.data.selectedProvince!,
         district: districtState.data.selectedDistrict!,
       );
-      await navigateToSubmission2(input);
+      navigateToSubmission2(input);
     } else {
       final input = Submission3Input(
         customerData: Customer.empty()
       );
 
-      await navigateToSubmission3(input);
+      navigateToSubmission3(input);
     }
 
     _stepperNotifier.nextStep();

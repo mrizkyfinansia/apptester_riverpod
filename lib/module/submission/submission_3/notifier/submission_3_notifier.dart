@@ -1,6 +1,5 @@
 import 'package:app_riverpod/module/submission/common/stepper/stepper_notifier.dart';
 import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_input.dart';
-import 'package:app_riverpod/module/submission/submission_3/route/suhmission_3_output.dart';
 import 'package:app_riverpod/module/submission/submission_3/state/submission_3_state.dart';
 import 'package:riverpod_annotation/riverpod_annotation.dart';
 
@@ -21,26 +20,18 @@ class Submission3Notifier extends _$Submission3Notifier {
   }
 
   void onNavigatedBack({
-    required void Function(Submission3Output) backToSubmission2,
+    required void Function() backToSubmission2,
   }){
     stepperNotifier.previousStep();
-    backToSubmission2(
-      const Submission3Output(
-        result: "Submission navigate back",
-      ),
-    );
+    backToSubmission2();
   }
 
   Future<void> onSubmited({
-    required void Function(Submission3Output) offToHome,
+    required void Function() offToHome,
   }) async {
     state.loading();
     await Future.delayed(const Duration(seconds: 1)).then((_) {
-      offToHome(
-        const Submission3Output(
-          result: "Submission submitted",
-        ),
-      );
+      offToHome();
     });
   }
 }
