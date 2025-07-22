@@ -1,4 +1,5 @@
 import 'package:app_riverpod/core/state/base_state.dart';
+import 'package:app_riverpod/features/pin/route/pin_output.dart';
 import 'package:app_riverpod/features/submission/submission_2/notifier/submission_2_notifier.dart';
 import 'package:app_riverpod/features/submission/submission_2/route/suhmission_2_input.dart';
 import 'package:app_riverpod/features/submission/submission_3/route/suhmission_3_input.dart';
@@ -10,11 +11,13 @@ class Submission2Screen extends ConsumerStatefulWidget {
     super.key,
     required this.input,
     required this.navigateToSubmission3,
+    required this.navigateToPin,
     required this.backToSubmission1,
   });
 
   final Submission2Input input;
   final void Function(Submission3Input) navigateToSubmission3;
+  final Future<PinOutput> Function() navigateToPin;
   final void Function() backToSubmission1;
 
   @override
@@ -84,8 +87,16 @@ class _Submission2ScreenState extends ConsumerState<Submission2Screen> {
         ),
         const SizedBox(height: 10),
         ElevatedButton(
-          onPressed: () {
-            submission2Notifier.onTapButton(navigateToSubmission3: widget.navigateToSubmission3);
+          onPressed: () async {
+            final result = await submission2Notifier.onTapButton(
+              navigateToSubmission3: widget.navigateToSubmission3,
+              navigateToPin: widget.navigateToPin,
+            );
+            if(result == false && mounted) {
+              ScaffoldMessenger.of(context).showSnackBar(
+                const SnackBar(content: Text("Pin Tidak Boleh kosong"))
+              );
+            }
           },
           child: const Text('Next'),
         ),

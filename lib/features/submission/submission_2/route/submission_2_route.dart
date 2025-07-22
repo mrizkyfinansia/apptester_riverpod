@@ -1,4 +1,6 @@
 import 'package:app_riverpod/core/router/base_route.dart';
+import 'package:app_riverpod/features/pin/route/pin_output.dart';
+import 'package:app_riverpod/features/pin/route/pin_route.dart';
 import 'package:app_riverpod/features/submission/submission_2/route/suhmission_2_input.dart';
 import 'package:app_riverpod/features/submission/submission_2/submission_2_screen.dart';
 import 'package:app_riverpod/features/submission/submission_3/route/submission_3_route.dart';
@@ -22,6 +24,10 @@ class Submission2Route extends BaseRoute<Submission2Input, Null> {
           input: state.extra as Submission2Input,
           navigateToSubmission3: (input) {
             Submission3Route().push(context, input: input);
+          },
+          navigateToPin: () async {
+            final result = await PinRoute().push(context);
+            return result ?? const PinOutput(isSuccess: false);
           },
           backToSubmission1: () {
             pop(context);
